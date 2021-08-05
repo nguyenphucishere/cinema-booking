@@ -1,0 +1,88 @@
+﻿@model ASP_MVCProject_NguyenVuongThienPhuc.user
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <style>
+        .fb-profile img.fb-image-lg{
+            z-index: 0;
+            width: 100%;
+            margin-bottom: 10px;
+            height: 200px;
+            border-radius: 3px 4px; 
+        }
+
+        .fb-image-profile
+        {
+            margin: -90px 10px 0px 50px;
+            z-index: 9;
+            width: 20%;
+        }
+
+        @@media (max-width:768px)
+        {
+
+            .fb-profile-text>h1{
+                font-weight: 700;
+                font-size:16px;
+            }
+
+            .fb-image-profile
+            {
+                margin: -45px 10px 0px 25px;
+                z-index: 9;
+                width: 20%;
+            }
+        }
+    </style>
+}
+<div class="container">
+    <div class="fb-profile">
+        <img align="left" class="fb-image-lg" src="/Content/images/users/backgroundProfile.gif" alt="Profile image example" />
+        <img align="left" src="@if (Model.avatar == null) {@("/Content/images/users/noUser.png")} else { @(Model.avatar) } " class="fb-image-profile img-thumbnail" alt="Profile image example" />
+        <div class="fb-profile-text">
+            <h1>@Model.fullName</h1>
+            Customer
+        </div>
+    </div>
+</div>
+<div class="container" style="margin-top: 10rem;">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>User Info</h1>
+            @Html.ActionLink("Edit", "Edit", "User", new { area = "user" }, new { @class = "btn btn-success" })
+        </div>
+        <div class="col-md-12">
+            <p>
+                <b>@Html.DisplayNameFor(modelItemName => modelItemName.fullName): </b>
+                @Html.DisplayFor(modelItem => modelItem.fullName)
+            </p>
+        </div>
+
+        <div class="col-md-12">
+            <p>
+                <b>@Html.DisplayNameFor(modelItemName => modelItemName.phone): </b>
+                @Html.DisplayFor(modelItem => modelItem.phone)
+            </p>
+        </div>
+
+        <div class="col-md-12">
+            <p>
+                <b>@Html.DisplayNameFor(modelItemName => modelItemName.dateOfBirth): </b>
+                @Html.DisplayFor(modelItem => modelItem.dateOfBirth)
+            </p>
+        </div>
+
+        <div class="col-md-12">
+            <p>
+                <b>@Html.DisplayNameFor(modelItemName => modelItemName.username): </b>
+                @Html.DisplayFor(modelItem => modelItem.username)
+            </p>
+        </div>
+    </div>
+</div>
+

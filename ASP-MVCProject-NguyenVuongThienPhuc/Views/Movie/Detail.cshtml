@@ -1,0 +1,103 @@
+﻿@model ASP_MVCProject_NguyenVuongThienPhuc.movie
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="border-bottom: 2px solid #222;padding-bottom: 20px">Movie Content</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <img src="@Model.imageLink" style="width: 100%" />
+    </div>
+    <div class="col-md-9">
+        <h3 class="font-weight-lighter text-uppercase">@Html.DisplayFor(modelInfo => modelInfo.movieName)</h3>
+        <hr />
+        <div>
+            <b class="text-capitalize">@Html.DisplayNameFor(modelName => modelName.category):</b>
+            @Html.DisplayFor(modelInfo => modelInfo.category.categoryName)
+        </div>
+
+        <div>
+            <b class="text-capitalize">@Html.DisplayNameFor(modelName => modelName.publishDate):</b>
+            @Html.DisplayFor(modelInfo => modelInfo.publishDate)
+        </div>
+
+        <div>
+            <b class="text-capitalize">@Html.DisplayNameFor(modelName => modelName.length):</b>
+            @Html.DisplayFor(modelInfo => modelInfo.length)
+        </div>
+
+        <div>
+            <b class="text-capitalize">@Html.DisplayNameFor(modelName => modelName.ratedID):</b>
+            @Html.DisplayFor(modelInfo => modelInfo.movieRated.ratedName)
+        </div>
+
+        <div>
+            <b class="text-capitalize">@Html.DisplayNameFor(modelName => modelName.language):</b>
+            @Html.DisplayFor(modelInfo => modelInfo.language)
+        </div>
+
+        <div>
+            <b class="text-capitalize">@Html.DisplayNameFor(modelName => modelName.price):</b>
+            @Html.DisplayFor(modelInfo => modelInfo.price)
+        </div>
+
+        @if (Model.publishDate < DateTime.Now)
+        {
+            <div class="button button-2" data-toggle="modal" data-target="#bookTicketModal">
+                <div id="slide"></div>
+                <a style="color: #a61d2a" id="booking-ticket" href="#">Buy Ticket</a>
+            </div>
+        }
+    </div>
+</div>
+<div class="row mt-5 mb-3">
+    <div class="col-md-4 ml-auto mr-auto text-center">
+        <div class="list-group list-group-horizontal row" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active col-6" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">@Html.DisplayNameFor(modelName => modelName.description)</a>
+            <a class="list-group-item list-group-item-action col-6" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">@Html.DisplayNameFor(modelName => modelName.trailerEmbedHTML)</a>
+        </div>
+    </div>
+    <div class="col-md-12 mt-3">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">@Html.DisplayFor(modelName => modelName.description)</div>
+            <div class="tab-pane fade" style="width: 50%" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">@Html.DisplayFor(modelName => modelName.trailerEmbedHTML)</div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="bookTicketModal" tabindex="-1" role="dialog" aria-labelledby="bookTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookTicketModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="model-body">
+                <p class="text-center">Loading...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Back to Home Page", "Index", "Home")
+</p>
+
+@section scripts{
+    <script>
+        $('#bookTicketModal').on('show.bs.modal', (event) => {
+            $.get('/User/GetSchedules/@Model.movieID', (result) => {
+                $('#model-body').html(result);
+            });
+        });
+
+        $('#bookTicketModal').on('hide.bs.modal', (event) => {
+            $('#model-body').html("<p class='text - center'>Loading...</p>");
+        });
+    </script>
+}

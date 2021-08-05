@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Check Out";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="container">
+
+</div>
+
+@section scripts{
+   <script>
+       $.get('/User/getViewOrder/@ViewBag.ID', function (result) {
+           var decodedString = atob(result);
+           $("#container").html(decodedString);
+       });
+   </script>
+}

@@ -1,0 +1,113 @@
+﻿@model ASP_MVCProject_NguyenVuongThienPhuc.movie
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+    </div>
+    <div class="col-md-6">
+        <img src="@Model.imageLink" style="width: 100%" alt="Image of @Model.movieName"/>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-12">
+            <b>
+                @Html.DisplayNameFor(model => model.movieName):
+            </b>
+            @Html.DisplayFor(model => model.movieName)
+        </div>
+        <div class="col-md-12">
+            <b>
+                @Html.DisplayNameFor(model => model.publishDate):
+            </b>
+            @Html.DisplayFor(model => model.publishDate)
+        </div>
+        <div class="col-md-12">
+            <b>
+                @Html.DisplayNameFor(model => model.price):
+            </b>
+            @Html.DisplayFor(model => model.price)
+        </div>
+        <div class="col-md-12">
+            <b>
+                @Html.DisplayNameFor(model => model.length):
+            </b>
+            @Html.DisplayFor(model => model.length)
+        </div>
+        <div class="col-md-12">
+            <b>
+                @Html.DisplayNameFor(model => model.language):
+            </b>
+            @Html.DisplayFor(model => model.language)
+        </div>
+        <div class="col-md-12">
+            <b>
+                @Html.DisplayNameFor(model => model.url):
+            </b>
+            @Html.DisplayFor(model => model.url)
+        </div>
+        <div class="col-md-12">
+            <b>
+                @Html.DisplayNameFor(model => model.category.categoryName):
+            </b>
+            @Html.DisplayFor(model => model.category.categoryName)
+        </div>
+        <div class="col-md-12">
+            <b>
+                @Html.DisplayNameFor(model => model.movieRated.ratedName):
+            </b>
+            @Html.DisplayFor(model => model.movieRated.ratedName)
+        </div>
+
+        <div class="col-md-12 row">
+            <div class="col-md-12 font-weight-bold">
+                @Html.DisplayNameFor(model => model.description)
+            </div>
+
+            <div class="col-md-12">
+                @Html.DisplayFor(model => model.description)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 row mt-4">
+        <div class="col-md-12 font-weight-bold position-relative">
+            <span>@Html.DisplayNameFor(model => model.trailerEmbedHTML)</span>
+            <span class="float-right position-relative" style="top: -13px;">
+                <button id="toggleModeEmbed" class="btn btn-light"><i class="fas fa-cog"></i></button>
+            </span>
+        </div>
+        <div class="col-md-12 row" style="height: 600px">
+            <div class="col-md-12 d-none" id="htmlCode">
+                <code>@Html.DisplayTextFor(model => model.trailerEmbedHTML)</code>
+            </div>
+            <div class="col-md-12" id="embedVideo">
+                @Html.DisplayFor(model => model.trailerEmbedHTML)
+            </div>
+        </div>
+
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.movieID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@section scripts{
+    <style>
+        b{
+            text-transform: capitalize;
+        }
+    </style>
+    <script>
+        $("#toggleModeEmbed").click(() => {
+            $("#htmlCode").toggleClass("d-none");
+            $("#embedVideo").toggleClass("d-none");
+        });
+    </script>
+}

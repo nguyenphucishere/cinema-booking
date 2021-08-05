@@ -1,0 +1,78 @@
+﻿@model ASP_MVCProject_NguyenVuongThienPhuc.user
+@using BotDetect.Web.Mvc;
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css/style_register.css" rel="stylesheet" />
+}
+
+<div class="main">
+    <div class="container" id="container-2">
+        <div class="signup-content">
+            <form method="POST" id="signup-form" class="signup-form" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <h2>Sign up</h2>
+                <p class="desc mb-0">Welcome to <b>PH Movie Hub</b></p>
+                @Html.ValidationSummary(false, "", new { @class = "text-primary" })
+                <div class="form-group">
+                    @Html.EditorFor(model => model.fullName, new { htmlAttributes = new { @class = "form-input", required = "", placeholder = "Your Name" } })
+                    @Html.ValidationMessageFor(model => model.fullName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-input", required = "", placeholder = "Email" } })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-input", required = "", placeholder = "Phone Number" } })
+                    @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-input", required = "", placeholder = "Username" } })
+                    @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-input", required = "", placeholder = "Password" } })
+                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.dateOfBirth, new { htmlAttributes = new { @class = "form-input", required = "", placeholder = "D.O.B" } })
+                    @Html.ValidationMessageFor(model => model.dateOfBirth, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <input name="reTypePassword" id="reTypePassword" type="password" class="form-input" placeholder="Retype Password" required />
+                </div>
+                <div class="form-group">
+                    <input type="file" name="avatar" id="avatar" max="1" accept="image" />
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="agreeTerm" id="agreeTerm" value="agreeTerm" class="agree-term col-1 d-inline-block" required />
+                    <label for="agree-term" class="label-agree-term col-auto">I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                </div>
+                @{
+                    MvcCaptcha captcha = new MvcCaptcha("Captcha");
+                    captcha.UserInputID = "CaptchaCode";
+                    captcha.AutoClearInput = true;
+                    captcha.AutoReloadTimeout = 10;
+                }
+                <div class="form-group">
+                    @Html.Captcha(captcha)
+                    @Html.TextBox("CaptchaCode", null, new { placeholder = "Type Captcha Code here" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" id="submit" class="form-submit submit" value="Sign up" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/Content/js/main_register.js"></script>
+    @Scripts.Render("~/Scripts/captcha.validate.js")
+}
+

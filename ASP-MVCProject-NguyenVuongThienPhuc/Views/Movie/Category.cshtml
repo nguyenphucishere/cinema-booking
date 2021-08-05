@@ -1,0 +1,73 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ASP_MVCProject_NguyenVuongThienPhuc.movie>
+
+@{
+    ViewBag.Title = ViewBag.categoryName + " Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    @if (Model.Count == 0)
+    {
+        <div class="col-md-12">
+            <p class="text-muted text-center">Nothing here :(</p>
+        </div>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-3 col-sm-6 col-6 card p-0">
+                <img src="@item.imageLink" class="card-img-top" />
+                <div class="details">
+                    <div class="center">
+                        <h1>@item.movieName<br><span class="mt-2">@item.category.categoryName movie</span></h1>
+                        <div class="mt-3">
+                            <button type="button" class="button-fill" data-toggle="modal" data-target="#trailerViewModal" data-embedcode="@item.trailerEmbedHTML">Trailer</button>
+                            <div class="button button-2" onclick="window.open('/Movie/Detail/@item.url', '_self');">
+                                <div id="slide"></div>
+                                @Html.ActionLink("Detail", "Detail", "Movie", new { id = item.url }, new { style = "color: #a61d2a" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+        <div class="col-md-12">
+            @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new { page = pageNumber }))
+        </div>
+
+    </div>
+<div class="modal fade" id="trailerViewModal" tabindex="-1" role="dialog" aria-labelledby="trailerViewModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Loading...
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        $('#trailerViewModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var embedCode = button.data('embedcode')
+            var modal = $(this)
+            modal.find('.modal-body').html(embedCode)
+        })
+        $('#trailerViewModal').on('hide.bs.modal', function (event) {
+            var modal = $(this)
+            modal.find('.modal-body').html("")
+        })
+    </script>
+}
+

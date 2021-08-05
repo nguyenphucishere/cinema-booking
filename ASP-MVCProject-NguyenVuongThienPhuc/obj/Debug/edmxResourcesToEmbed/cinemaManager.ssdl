@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cinemaManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="categories">
+    <Key>
+      <PropertyRef Name="categoryID" />
+    </Key>
+    <Property Name="categoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="description" Type="ntext" Nullable="false" />
+  </EntityType>
+  <EntityType Name="movieRateds">
+    <Key>
+      <PropertyRef Name="ratedID" />
+    </Key>
+    <Property Name="ratedID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ratedAge" Type="int" Nullable="false" />
+    <Property Name="ratedName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="movies">
+    <Key>
+      <PropertyRef Name="movieID" />
+    </Key>
+    <Property Name="movieID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="movieName" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="categoryID" Type="int" Nullable="false" />
+    <Property Name="publishDate" Type="date" Nullable="false" />
+    <Property Name="price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="trailerEmbedHTML" Type="varchar(max)" Nullable="false" />
+    <Property Name="length" Type="int" Nullable="false" />
+    <Property Name="imageLink" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="description" Type="ntext" />
+    <Property Name="ratedID" Type="int" Nullable="false" />
+    <Property Name="language" Type="varchar" MaxLength="50" />
+    <Property Name="url" Type="varchar" MaxLength="350" />
+  </EntityType>
+  <EntityType Name="order_items">
+    <Key>
+      <PropertyRef Name="ticketID" />
+    </Key>
+    <Property Name="orderID" Type="int" Nullable="false" />
+    <Property Name="ticketID" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="seatID" Type="int" Nullable="false" />
+    <Property Name="isAdult" Type="bit" Nullable="false" />
+    <Property Name="foodID" Type="int" />
+    <Property Name="discount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="orders">
+    <Key>
+      <PropertyRef Name="orderID" />
+    </Key>
+    <Property Name="orderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="orderDate" Type="date" Nullable="false" />
+    <Property Name="paymentMethod" Type="int" Nullable="false" />
+    <Property Name="scheduleID" Type="int" Nullable="false" />
+    <Property Name="userID" Type="int" Nullable="false" />
+    <Property Name="description" Type="ntext" />
+  </EntityType>
+  <EntityType Name="rooms">
+    <Key>
+      <PropertyRef Name="roomName" />
+    </Key>
+    <Property Name="roomName" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="schedules">
+    <Key>
+      <PropertyRef Name="scheduleID" />
+    </Key>
+    <Property Name="scheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="scheduleTime" Type="datetime" Nullable="false" />
+    <Property Name="roomID" Type="int" Nullable="false" />
+    <Property Name="movieID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="seats">
+    <Key>
+      <PropertyRef Name="seatID" />
+    </Key>
+    <Property Name="seatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="seatName" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="roomName" Type="int" Nullable="false" />
+    <Property Name="isAvailable" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="snacks">
+    <Key>
+      <PropertyRef Name="foodID" />
+    </Key>
+    <Property Name="foodID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="foodName" Type="nvarchar" MaxLength="120" Nullable="false" />
+    <Property Name="price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="userID" />
+    </Key>
+    <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fullName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="phone" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="dateOfBirth" Type="date" Nullable="false" />
+    <Property Name="memberCard" Type="bit" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="password" Type="varchar(max)" Nullable="false" />
+    <Property Name="avatar" Type="varchar" MaxLength="300" />
+  </EntityType>
+  <Association Name="FK_movies_categories">
+    <End Role="categories" Type="Self.categories" Multiplicity="1" />
+    <End Role="movies" Type="Self.movies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categories">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="movies">
+        <PropertyRef Name="categoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_movies_movieRateds">
+    <End Role="movieRateds" Type="Self.movieRateds" Multiplicity="1" />
+    <End Role="movies" Type="Self.movies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="movieRateds">
+        <PropertyRef Name="ratedID" />
+      </Principal>
+      <Dependent Role="movies">
+        <PropertyRef Name="ratedID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_items_foods">
+    <End Role="snacks" Type="Self.snacks" Multiplicity="0..1" />
+    <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="snacks">
+        <PropertyRef Name="foodID" />
+      </Principal>
+      <Dependent Role="order_items">
+        <PropertyRef Name="foodID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_items_orders">
+    <End Role="orders" Type="Self.orders" Multiplicity="1" />
+    <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="orders">
+        <PropertyRef Name="orderID" />
+      </Principal>
+      <Dependent Role="order_items">
+        <PropertyRef Name="orderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_orders_schedules">
+    <End Role="schedules" Type="Self.schedules" Multiplicity="1" />
+    <End Role="orders" Type="Self.orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="schedules">
+        <PropertyRef Name="scheduleID" />
+      </Principal>
+      <Dependent Role="orders">
+        <PropertyRef Name="scheduleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_orders_users">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="orders" Type="Self.orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="userID" />
+      </Principal>
+      <Dependent Role="orders">
+        <PropertyRef Name="userID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_schedules_movies">
+    <End Role="movies" Type="Self.movies" Multiplicity="1" />
+    <End Role="schedules" Type="Self.schedules" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="movies">
+        <PropertyRef Name="movieID" />
+      </Principal>
+      <Dependent Role="schedules">
+        <PropertyRef Name="movieID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_schedules_rooms">
+    <End Role="rooms" Type="Self.rooms" Multiplicity="1" />
+    <End Role="schedules" Type="Self.schedules" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rooms">
+        <PropertyRef Name="roomName" />
+      </Principal>
+      <Dependent Role="schedules">
+        <PropertyRef Name="roomID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="cinemaManagerModelStoreContainer">
+    <EntitySet Name="categories" EntityType="Self.categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="movieRateds" EntityType="Self.movieRateds" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="movies" EntityType="Self.movies" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="order_items" EntityType="Self.order_items" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="rooms" EntityType="Self.rooms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="schedules" EntityType="Self.schedules" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="seats" EntityType="Self.seats" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="snacks" EntityType="Self.snacks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_movies_categories" Association="Self.FK_movies_categories">
+      <End Role="categories" EntitySet="categories" />
+      <End Role="movies" EntitySet="movies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_movies_movieRateds" Association="Self.FK_movies_movieRateds">
+      <End Role="movieRateds" EntitySet="movieRateds" />
+      <End Role="movies" EntitySet="movies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_items_foods" Association="Self.FK_order_items_foods">
+      <End Role="snacks" EntitySet="snacks" />
+      <End Role="order_items" EntitySet="order_items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_items_orders" Association="Self.FK_order_items_orders">
+      <End Role="orders" EntitySet="orders" />
+      <End Role="order_items" EntitySet="order_items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_orders_schedules" Association="Self.FK_orders_schedules">
+      <End Role="schedules" EntitySet="schedules" />
+      <End Role="orders" EntitySet="orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_orders_users" Association="Self.FK_orders_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="orders" EntitySet="orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_schedules_movies" Association="Self.FK_schedules_movies">
+      <End Role="movies" EntitySet="movies" />
+      <End Role="schedules" EntitySet="schedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_schedules_rooms" Association="Self.FK_schedules_rooms">
+      <End Role="rooms" EntitySet="rooms" />
+      <End Role="schedules" EntitySet="schedules" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
